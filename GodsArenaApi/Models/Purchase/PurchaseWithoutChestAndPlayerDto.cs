@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace GodsArenaApi.Models
 {
-    public class PurchaseForConsumptionDto
+    public class PurchaseWithoutDeckAndPlayerDto
     {
         public int Id { get; set; }
-        public int PlayerId { get; set; }
+        public int ChestId { get; set; }
     }
 }

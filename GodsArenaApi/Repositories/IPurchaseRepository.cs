@@ -12,6 +12,6 @@ namespace GodsArenaApi.Repositories
     {
         bool Exists(int id);
         void MakePurchase(int playerId, int chestId);
-        List<LootDto> ConsumePurchase(int purchaseId);
+        List<LootDto> ConsumePurchase(int playerId, int purchaseId);
     }
 }

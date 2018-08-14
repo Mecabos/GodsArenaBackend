@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using GodsArenaApi.Entities;
 using GodsArenaApi.Models;
 using GodsArenaApi.Repositories;
@@ -26,6 +27,23 @@ namespace GodsArenaApi.Controllers
             _chestRepository = chestRepository;
         }
 
+        [HttpGet("{playerId}")]
+        public IActionResult GetUnconsumedPurchases(int playerId)
+        {
+            if (!_playerRepository.Exists(playerId))
+            {
+                return NotFound();
+            }
+
+            List<Purchase> purchases = _purchaseRepository.FindBy(p => p.PlayerId == playerId, p => p.IsConsumed == false).ToList();
+
+            List<PurchaseWithoutDeckAndPlayerDto> purchasesResult = Mapper.Map<List<PurchaseWithoutDeckAndPlayerDto>>(purchases);
+
+            var result = purchasesResult.GroupBy(p => p.ChestId);
+
+            return Ok(result);
+        }
+
         [HttpPost("makePurchase")]
         public IActionResult MakePurchase(
             [FromBody] PurchaseForCreationDto newPurchase)
@@ -48,12 +66,6 @@ namespace GodsArenaApi.Controllers
             }
 
             return Ok("Purchase validated with success");
-
-            //var createdPointOfInterestToReturn = Mapper.Map<PointOfInterestDto>(finalPointOfInterest);
-
-            //return CreatedAtRoute("GetPointOfInterest", new
-            //{ cityId = cityId, id = createdPointOfInterestToReturn.Id }, createdPointOfInterestToReturn);
-
         }
 
         [HttpPost("consumePurchase")]
@@ -65,12 +77,12 @@ namespace GodsArenaApi.Controllers
                 return BadRequest();
             }
 
-            if (!_purchaseRepository.Exists(purchaseToConsume.Id))
+            if (!_purchaseRepository.Exists(purchaseToConsume.Id) || !_playerRepository.Exists(purchaseToConsume.PlayerId))
             {
                 return NotFound();
             }
 
-            List<LootDto> rollResult = _purchaseRepository.ConsumePurchase(purchaseToConsume.Id);
+            List<LootDto> rollResult = _purchaseRepository.ConsumePurchase(purchaseToConsume.PlayerId,purchaseToConsume.Id);
 
             if(rollResult != null)
             {
@@ -79,16 +91,14 @@ namespace GodsArenaApi.Controllers
                     return StatusCode(500, "A problem happened while handling your request");
                 }
 
-                return Ok(rollResult);
+                List<LootPurchaseResultDto> LootPurchaseResult = Mapper.Map<List<LootPurchaseResultDto>>(rollResult);
+
+                return Ok(LootPurchaseResult);
             }
 
-            return StatusCode(500, "Purchase of Id " + purchaseToConsume.Id + " already consumed");
-
-            //var createdPointOfInterestToReturn = Mapper.Map<PointOfInterestDto>(finalPointOfInterest);
-
-            //return CreatedAtRoute("GetPointOfInterest", new
-            //{ cityId = cityId, id = createdPointOfInterestToReturn.Id }, createdPointOfInterestToReturn);
-
+            return StatusCode(500, "Purchase of Id " + purchaseToConsume.Id + " already consumed or isn't affiliated to specified");
         }
+
+        
     }
 }

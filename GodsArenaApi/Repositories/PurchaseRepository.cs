@@ -36,18 +36,21 @@ namespace GodsArenaApi.Repositories
             Add(newPurchase);
         }
 
-        public List<LootDto> ConsumePurchase(int purchaseId)
+        public List<LootDto> ConsumePurchase(int playerId, int purchaseId)
         {
             Purchase purchaseToConsume = GetInclude<Purchase>(p => p.Id == purchaseId, p => p.Chest);
-            Chest chestToOpen = purchaseToConsume.Chest;
-
-            if (!purchaseToConsume.IsConsumed)
+            if (purchaseToConsume.PlayerId == playerId)
             {
-                purchaseToConsume.IsConsumed = true;
-                List<LootDto> lootResult = _lootTableRepository.RollLoot(chestToOpen.LootTableId, purchaseToConsume.PlayerId);
-                return lootResult;
-            }
+                Chest chestToOpen = purchaseToConsume.Chest;
 
+                if (!purchaseToConsume.IsConsumed)
+                {
+                    purchaseToConsume.IsConsumed = true;
+                    List<LootDto> lootResult = _lootTableRepository.RollLoot(chestToOpen.LootTableId, purchaseToConsume.PlayerId);
+                    return lootResult;
+                }
+            }
+            
             return null;
         }
 

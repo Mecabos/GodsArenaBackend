@@ -76,6 +76,11 @@ namespace GodsArenaApi
                 cfg.CreateMap<Entities.Loot, Models.LootDto>();
                 cfg.CreateMap<Entities.Card, Models.CardDto>();
                 cfg.CreateMap<Entities.GoldLoot, Models.GoldLootDto>();
+                cfg.CreateMap<Models.LootDto, Models.LootPurchaseResultDto>()
+                    .Include<Models.CardDto, Models.CardPurchaseResultDto>()
+                    .Include<Models.GoldLootDto, Models.GoldPurchaseResultDto>();
+                cfg.CreateMap<Models.GoldLootDto, Models.GoldPurchaseResultDto>();
+                cfg.CreateMap<Models.CardDto, Models.CardPurchaseResultDto>();
                 //PackContent
                 cfg.CreateMap<Entities.PackContent, Models.PackContentDto>();
                 cfg.CreateMap<Entities.PackContent, Models.PackContentWithoutCardDto>();
@@ -83,11 +88,14 @@ namespace GodsArenaApi
                 cfg.CreateMap<Entities.Deck, Models.DeckDto>();
                 cfg.CreateMap<Entities.Deck, Models.DeckWithoutCardInLevelSlotDto>();
                 cfg.CreateMap<Models.DeckWithoutCardInLevelSlotDto, Entities.Deck>();
-                
                 //LevelSlot
                 cfg.CreateMap<Entities.LevelSlot, Models.LevelSlotDto>();
                 cfg.CreateMap<Entities.LevelSlot, Models.LevelSlotWithoutCardDto>();
                 cfg.CreateMap<Models.LevelSlotWithoutCardDto, Entities.LevelSlot>();
+                //Purchase
+                cfg.CreateMap<Entities.Purchase, Models.PurchaseWithoutDeckAndPlayerDto>();
+                //Chest
+                cfg.CreateMap<Entities.Chest, Models.ChestDto>();
 
             });
 

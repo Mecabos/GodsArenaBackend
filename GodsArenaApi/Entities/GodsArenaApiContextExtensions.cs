@@ -69,7 +69,8 @@ namespace GodsArenaApi.Entities
                 new Card(){Name= "Hermes", Description  = "God of thieves",Level = 2, Health = 200, Speed = 7, MythologyType = MythologyType.Greek, IsInDefaultDeck = true},
                 new Card(){Name= "Athena", Description  = "Goddess of victory",Level = 3, Health = 350, Speed = 5, MythologyType = MythologyType.Greek, IsInDefaultDeck = true},
                 new Card(){Name= "Zeus", Description  = "God of the sky",Level = 4, Health = 500, Speed = 5, MythologyType = MythologyType.Greek, IsInDefaultDeck = true},
-                new Card(){Name= "Nemesis", Description  = "Goddess of Revenge",Level = 2, Health = 300, Speed = 5, MythologyType = MythologyType.Greek, IsInDefaultDeck = false}
+                new Card(){Name= "Nemesis", Description  = "Goddess of Revenge",Level = 2, Health = 300, Speed = 5, MythologyType = MythologyType.Greek, IsInDefaultDeck = false},
+                new Card(){Name= "Poseidon", Description  = "God of the sea",Level = 3, Health = 300, Speed = 5, MythologyType = MythologyType.Greek, IsInDefaultDeck = false}
             };
             context.Cards.AddRange(Cards);
 
@@ -101,7 +102,8 @@ namespace GodsArenaApi.Entities
             //10.LootTable
             var LootTables = new List<LootTable>()
             {
-                new LootTable () {LootCount = 2}
+                new LootTable () {LootCount = 2},
+                new LootTable () {LootCount = 4}
             };
             context.LootTables.AddRange(LootTables);
 
@@ -114,14 +116,21 @@ namespace GodsArenaApi.Entities
                 new Drop() {LootTable = LootTables[0], Loot = Cards[3], Probability = 0.025f, Enabled = true, Always = false, Unique = false },
                 new Drop() {LootTable = LootTables[0], Loot = Cards[4], Probability = 0.15f, Enabled = true, Always = false, Unique = false },
                 new Drop() {LootTable = LootTables[0], Loot = GoldLoots[0], Probability = 0.7f, Enabled = true, Always = false, Unique = false },
-                new Drop() {LootTable = LootTables[0], Loot = GoldLoots[1], Probability = 0.4f, Enabled = true, Always = false, Unique = false }
+                new Drop() {LootTable = LootTables[0], Loot = GoldLoots[1], Probability = 0.4f, Enabled = true, Always = false, Unique = false },
+
+                new Drop() {LootTable = LootTables[1], Loot = GoldLoots[1], Probability = 0.4f, Enabled = true, Always = true, Unique = false },
+                new Drop() {LootTable = LootTables[1], Loot = Cards[2], Probability = 0.15f, Enabled = true, Always = false, Unique = false },
+                new Drop() {LootTable = LootTables[1], Loot = Cards[4], Probability = 0.15f, Enabled = true, Always = false, Unique = false },
+                new Drop() {LootTable = LootTables[1], Loot = Cards[5], Probability = 0.15f, Enabled = true, Always = false, Unique = true },
+                new Drop() {LootTable = LootTables[1], Loot = Cards[3], Probability = 0.15f, Enabled = true, Always = false, Unique = true },
             };
             context.Drops.AddRange(Drops);
 
             //12.Chest
             var Chests = new List<Chest>()
             {
-                new Chest(){Name = "Greek Worshiper Chest", Price=750, MythologyType = MythologyType.Greek, LootTable = LootTables[0]}
+                new Chest(){Name = "Greek Worshiper Chest", Price=750, MythologyType = MythologyType.Greek, LootTable = LootTables[0]},
+                new Chest(){Name = "Greek Oracle Chest", Price=2000, MythologyType = MythologyType.Greek, LootTable = LootTables[1]}
             };
             context.Chests.AddRange(Chests);
 
