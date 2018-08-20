@@ -58,14 +58,22 @@ namespace GodsArenaApi.Controllers
                 return NotFound();
             }
 
-            _purchaseRepository.MakePurchase(newPurchase.PlayerId, newPurchase.ChestId);
+            bool purchaseIsSuccessful = _purchaseRepository.MakePurchase(newPurchase.PlayerId, newPurchase.ChestId, newPurchase.IsPayedInGold, newPurchase.Quantity);
 
-            if (!_purchaseRepository.Save())
+            if (purchaseIsSuccessful)
             {
-                return StatusCode(500, "A problem happened while handling your request");
-            }
+                if (!_purchaseRepository.Save())
+                {
+                    return StatusCode(500, "A problem happened while handling your request");
+                }
 
-            return Ok("Purchase validated with success");
+                return Ok("Purchase validated with success");
+            }
+            else
+            {
+                return StatusCode(501, "Invalid purchase");
+            }
+            
         }
 
         [HttpPost("consumePurchase")]
@@ -96,7 +104,7 @@ namespace GodsArenaApi.Controllers
                 return Ok(LootPurchaseResult);
             }
 
-            return StatusCode(500, "Purchase of Id " + purchaseToConsume.Id + " already consumed or isn't affiliated to specified");
+            return StatusCode(501, "Purchase of Id " + purchaseToConsume.Id + " already consumed or isn't affiliated to specified");
         }
 
         

@@ -27,7 +27,7 @@ namespace GodsArenaApi.Entities
             //2.Wallet
             var Wallets = new List<Wallet>()
             {
-                new Wallet(){ CoinsEarned = 5000, GoldEarned = 0 ,Player = Players[0]}
+                new Wallet(){ CoinsEarned = 99999, GoldEarned = 9999 ,Player = Players[0]}
             };
             context.Wallets.AddRange(Wallets);
 
@@ -129,8 +129,8 @@ namespace GodsArenaApi.Entities
             //12.Chest
             var Chests = new List<Chest>()
             {
-                new Chest(){Name = "Greek Worshiper Chest", Price=750, MythologyType = MythologyType.Greek, LootTable = LootTables[0]},
-                new Chest(){Name = "Greek Oracle Chest", Price=2000, MythologyType = MythologyType.Greek, LootTable = LootTables[1]}
+                new Chest(){Name = "Greek Worshiper Chest", PriceInGold = 100, PriceInCoins=750, MythologyType = MythologyType.Greek, LootTable = LootTables[0]},
+                new Chest(){Name = "Greek Oracle Chest", PriceInGold = 250, PriceInCoins=2000, MythologyType = MythologyType.Greek, LootTable = LootTables[1]}
             };
             context.Chests.AddRange(Chests);
 

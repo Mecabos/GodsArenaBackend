@@ -11,7 +11,7 @@ namespace GodsArenaApi.Repositories
     public interface IPurchaseRepository : IRepository<Purchase>
     {
         bool Exists(int id);
-        void MakePurchase(int playerId, int chestId);
+        bool MakePurchase(int playerId, int chestId, bool isPayedInGold, int quantity);
         List<LootDto> ConsumePurchase(int playerId, int purchaseId);
     }
 }

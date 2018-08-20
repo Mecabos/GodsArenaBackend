@@ -4,14 +4,16 @@ using GodsArenaApi.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GodsArenaApi.Migrations
 {
     [DbContext(typeof(GodsArenaApiContext))]
-    partial class GodsArenaApiContextModelSnapshot : ModelSnapshot
+    [Migration("20180820170751_ChestDescriptionMigration")]
+    partial class ChestDescriptionMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +35,7 @@ namespace GodsArenaApi.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("PriceInCoins");
-
-                    b.Property<int>("PriceInGold");
+                    b.Property<int>("Price");
 
                     b.HasKey("Id");
 

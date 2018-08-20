@@ -9,5 +9,7 @@ namespace GodsArenaApi.Models
     {
         public int PlayerId { get; set; }
         public int ChestId { get; set; }
+        public bool IsPayedInGold { get; set; } = false;
+        public int Quantity { get; set; } = 1;
     }
 }
